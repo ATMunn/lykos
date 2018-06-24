@@ -909,9 +909,8 @@ class SleepyMode(GameMode):
 
         self.having_nightmare.clear()
 
-    def dullahan_targets(self, evt, var, dullahans, max_targets):
-        for dull in dullahans:
-            evt.data["targets"][dull] = UserSet(var.ROLES["priest"])
+    def dullahan_targets(self, evt, var, dullahan, max_targets):
+        evt.data["targets"].update(var.ROLES["priest"])
 
     def setup_nightmares(self, evt, var):
         if random.random() < 1/5:
@@ -991,7 +990,7 @@ class SleepyMode(GameMode):
                 self.nightmare_step()
 
     def move(self, direction, var, wrapper, message):
-        if self.having_nightmare[0] is not wrapper.source:
+        if self.having_nightmare and self.having_nightmare[0] is not wrapper.source:
             return
         opposite = {"n": "s", "e": "w", "s": "n", "w": "e"}
         if self.prev_direction == opposite[direction]:
